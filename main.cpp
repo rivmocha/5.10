@@ -1,58 +1,116 @@
 #include <iostream>
+#include <conio.h>
+#include <windows.h>
+
 using namespace std;
 
+int map[10][10] = {
+{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
 
-void SSort(int* Array, int count)			// 비교해서 정렬하기. 
+
+struct FVector2D
 {
-	for (int i = 0; i < count; ++i)
-	{
-		for (int j = 0; j < count; ++j)
-		{
-			if (Array[i] < Array[j])
-			{
-				int Temp = Array[i];
-				Array[i] = Array[j];
-				Array[j] = Temp;
-			}
-		}
-	}
+    int X;
+    int Y;
+};
 
-}
+void Map();
+void SetLocation(FVector2D NewLocation);
 
-int ArraySum(int* Array, int count)		// 횟수만큼 받은 수 합을 함수로.
-{
-	int Sum = 0;
-
-	for (int i = 0; i < count; ++i)
-	{
-		Sum += Array[i];
-	}
-	return Sum;
-
-}
 
 int main()
 {
-	int count = 0;
-	cin >>  count;		//횟수 입력
-	cout << "입력횟수는" << "  " << count << endl;		// 입력값 출력
+   
 
-	int* Array = new int[count];		//받은 횟수만큼 저장
+    bool bRunning = true;
+    FVector2D PlayerPosition;
+    PlayerPosition.X = 5;
+    PlayerPosition.Y = 2;
 
-	for (int i = 0; i < count; ++i)		//횟수마다 배열 한칸씩 저장
-	{
-		cin >> Array[i];
-	}
-	int Sum = ArraySum(Array, count);
-	cout << "총 합은 " << " " <<  Sum << endl;		
+    Map();
 
-	
-	SSort(Array, count);
+    while (bRunning)
+    {
+        int KeyCode = _getch();
 
-	for (int i = 0; i < count; ++i)
-	{
-		cout << Array[i] << endl;
-	}
+        switch (KeyCode)
+        {
+        case 'w':
+        case 'W':
+            PlayerPosition.Y--;
+            break;
+        case 's':
+        case 'S':
+            PlayerPosition.Y++;
+            break;
+        case 'a':
+        case 'A':
+            PlayerPosition.X--;
+            break;
+        case 'd':
+        case 'D':
+            PlayerPosition.X++;
+            break;
+        case 27:
+            bRunning = false;
+            break;
 
-	return 0;
+        }
+
+        PlayerPosition.X = PlayerPosition.X < 2 ? 2 : PlayerPosition.X;
+        PlayerPosition.Y = PlayerPosition.Y < 2 ? 2 : PlayerPosition.Y;
+        PlayerPosition.X = PlayerPosition.X > 16 ? 16 : PlayerPosition.X;
+        PlayerPosition.Y = PlayerPosition.Y > 7 ? 7 : PlayerPosition.Y;
+
+        system("cls");
+        
+        Map();
+        SetLocation(PlayerPosition);
+        cout << "P";
+    }
+
+
+    return 0;
+    
+}
+
+//이동 구현
+void SetLocation(FVector2D NewLocation)
+{
+    COORD Cur;
+    Cur.X = NewLocation.X;
+    Cur.Y = NewLocation.Y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
+}
+
+
+void Map()
+{
+    for (int X = 0; X < 10; ++X)
+    {
+        for (int Y = 0; Y < 10; ++Y)
+        {
+            if (map[X][Y] == 1)
+            {
+                cout << '#' << ' ';
+            }
+            else
+            {
+                cout << ' ' << ' ';
+            }
+        }
+        cout << '\n';
+
+    }
+
 }
