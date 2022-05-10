@@ -2,6 +2,23 @@
 using namespace std;
 
 
+void SSort(int* Array, int count)			// 비교해서 정렬하기. 
+{
+	for (int i = 0; i < count; ++i)
+	{
+		for (int j = 0; j < count; ++j)
+		{
+			if (Array[i] < Array[j])
+			{
+				int Temp = Array[i];
+				Array[i] = Array[j];
+				Array[j] = Temp;
+			}
+		}
+	}
+
+}
+
 int ArraySum(int* Array, int count)		// 횟수만큼 받은 수 합을 함수로.
 {
 	int Sum = 0;
@@ -27,7 +44,15 @@ int main()
 		cin >> Array[i];
 	}
 	int Sum = ArraySum(Array, count);
-	cout << Sum << endl;
+	cout << "총 합은 " << " " <<  Sum << endl;		
+
+	
+	SSort(Array, count);
+
+	for (int i = 0; i < count; ++i)
+	{
+		cout << Array[i] << endl;
+	}
 
 	return 0;
 }
