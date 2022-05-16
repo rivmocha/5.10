@@ -4,6 +4,13 @@
 
 using namespace std;
 
+struct FVector2D
+{
+    int X;
+    int Y;
+};
+
+
 int map[10][10] = {
 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -18,11 +25,19 @@ int map[10][10] = {
 };
 
 
-struct FVector2D
+bool IsCollide(const FVector2D& NewPlayerPosition, FVector2D& OutPlayerPosition)
 {
-    int X;
-    int Y;
+    if (map[NewPlayerPosition.Y][NewPlayerPosition.X] == '1')
+    {
+        return false;
+    }
+    else
+    {
+        OutPlayerPosition = NewPlayerPosition;
+        return true;
+    }
 };
+
 
 void Map();
 void SetLocation(FVector2D NewLocation);
@@ -43,34 +58,40 @@ int main()
     {
         int KeyCode = _getch();
 
+        FVector2D NewPlayerPosition = PlayerPosition;
+
         switch (KeyCode)
         {
         case 'w':
         case 'W':
-            PlayerPosition.Y--;
-            break;
+            NewPlayerPosition.Y--;
+             break;
         case 's':
         case 'S':
-            PlayerPosition.Y++;
-            break;
+            NewPlayerPosition.Y++;
+             break;
         case 'a':
         case 'A':
-            PlayerPosition.X--;
-            break;
+            NewPlayerPosition.X--;
+             break;
         case 'd':
         case 'D':
-            PlayerPosition.X++;
-            break;
+            NewPlayerPosition.X++;
+             break;
         case 27:
             bRunning = false;
             break;
 
         }
 
-        PlayerPosition.X = PlayerPosition.X < 2 ? 2 : PlayerPosition.X;
-        PlayerPosition.Y = PlayerPosition.Y < 2 ? 2 : PlayerPosition.Y;
-        PlayerPosition.X = PlayerPosition.X > 16 ? 16 : PlayerPosition.X;
-        PlayerPosition.Y = PlayerPosition.Y > 7 ? 7 : PlayerPosition.Y;
+        IsCollide(NewPlayerPosition, PlayerPosition);
+
+        /*
+        PlayerPosition.X = PlayerPosition.X < 1 ? 1 : PlayerPosition.X;
+        PlayerPosition.Y = PlayerPosition.Y < 1 ? 1 : PlayerPosition.Y;
+        PlayerPosition.X = PlayerPosition.X > 17 ? 17 : PlayerPosition.X;
+        PlayerPosition.Y = PlayerPosition.Y > 8 ? 8 : PlayerPosition.Y;
+        */
 
         system("cls");
         
@@ -91,6 +112,8 @@ void SetLocation(FVector2D NewLocation)
     Cur.X = NewLocation.X;
     Cur.Y = NewLocation.Y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
+
+   
 }
 
 
