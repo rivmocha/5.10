@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 struct FVector2D
 {
     int X;
@@ -39,9 +41,9 @@ bool IsCollide(const FVector2D& NewPlayerPosition, FVector2D& OutPlayerPosition)
 };
 
 
-void Map();
-void SetLocation(FVector2D NewLocation);
 
+void SetLocation(FVector2D NewLocation);
+void Map();
 
 int main()
 {
@@ -52,7 +54,12 @@ int main()
     PlayerPosition.X = 5;
     PlayerPosition.Y = 2;
 
-    Map();
+    
+    srand(static_cast<unsigned int>(time(nullptr)));
+    FVector2D StartPosition = { 0, 0 };
+    StartPosition.X = rand() % 10 + 1;
+    StartPosition.Y = rand() % 10 + 1;
+
 
     while (bRunning)
     {
@@ -96,10 +103,13 @@ int main()
         system("cls");
         
         Map();
+        FVector2D Temp;
+        Temp.X = PlayerPosition.X + StartPosition.X;
+        Temp.Y = PlayerPosition.Y + StartPosition.Y;
+        SetLocation(Temp);
         SetLocation(PlayerPosition);
         cout << "P";
     }
-
 
     return 0;
     
@@ -112,8 +122,7 @@ void SetLocation(FVector2D NewLocation)
     Cur.X = NewLocation.X;
     Cur.Y = NewLocation.Y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
-
-   
+    
 }
 
 
