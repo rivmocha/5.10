@@ -4,46 +4,56 @@
 
 using namespace std;
 
-
-
 struct FVector2D
 {
     int X;
     int Y;
 };
 
-
-int map[10][10] = {
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+char Map[10][10] = {
+    {'#','#','#','#','#','#','#','#','#','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ','#',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ','#',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+    {'#',' ',' ',' ',' ',' ',' ',' ','G','#'},
+    {'#','#','#','#','#','#','#','#','#','#'}
 };
 
 
-bool IsCollide(const FVector2D& NewPlayerPosition, FVector2D& OutPlayerPosition)
+bool IsCollide(const FVector2D& PredictPlayerPosition, FVector2D& OutPlayerPosition)
 {
-    if (map[NewPlayerPosition.Y][NewPlayerPosition.X] == '1')
+    if (Map[PredictPlayerPosition.Y][PredictPlayerPosition.X] == '#')
     {
         return false;
     }
     else
     {
-        OutPlayerPosition = NewPlayerPosition;
+        OutPlayerPosition = PredictPlayerPosition;
         return true;
     }
-};
-
-
+}
 
 void SetLocation(FVector2D NewLocation);
-void Map();
+
+void DrawBG(FVector2D StartPosition)
+{
+    for (int Y = 0; Y < 10; ++Y)
+    {
+        for (int X = 0; X < 10; ++X)
+        {
+            FVector2D Temp;
+            Temp.X = X + StartPosition.X;
+            Temp.Y = Y + StartPosition.Y;
+            SetLocation(Temp);
+            cout << Map[Y][X];
+        }
+    }
+
+}
 
 int main()
 {
@@ -93,21 +103,20 @@ int main()
 
         IsCollide(NewPlayerPosition, PlayerPosition);
 
-        /*
+        
         PlayerPosition.X = PlayerPosition.X < 1 ? 1 : PlayerPosition.X;
         PlayerPosition.Y = PlayerPosition.Y < 1 ? 1 : PlayerPosition.Y;
         PlayerPosition.X = PlayerPosition.X > 17 ? 17 : PlayerPosition.X;
         PlayerPosition.Y = PlayerPosition.Y > 8 ? 8 : PlayerPosition.Y;
-        */
+        
 
         system("cls");
         
-        Map();
+        DrawBG(StartPosition);
         FVector2D Temp;
         Temp.X = PlayerPosition.X + StartPosition.X;
         Temp.Y = PlayerPosition.Y + StartPosition.Y;
         SetLocation(Temp);
-        SetLocation(PlayerPosition);
         cout << "P";
     }
 
@@ -125,24 +134,3 @@ void SetLocation(FVector2D NewLocation)
     
 }
 
-
-void Map()
-{
-    for (int X = 0; X < 10; ++X)
-    {
-        for (int Y = 0; Y < 10; ++Y)
-        {
-            if (map[X][Y] == 1)
-            {
-                cout << '#' << ' ';
-            }
-            else
-            {
-                cout << ' ' << ' ';
-            }
-        }
-        cout << '\n';
-
-    }
-
-}
