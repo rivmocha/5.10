@@ -4,56 +4,64 @@
 
 using namespace std;
 
+
+
 struct FVector2D
 {
     int X;
     int Y;
 };
 
-char Map[10][10] = {
-    {'#','#','#','#','#','#','#','#','#','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ','#',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ','#',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-    {'#',' ',' ',' ',' ',' ',' ',' ','G','#'},
-    {'#','#','#','#','#','#','#','#','#','#'}
+
+int Map[10][10] = {
+{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
 
-bool IsCollide(const FVector2D& PredictPlayerPosition, FVector2D& OutPlayerPosition)
+bool IsCollide(const FVector2D& NewPlayerPosition, FVector2D& OutPlayerPosition)
 {
-    if (Map[PredictPlayerPosition.Y][PredictPlayerPosition.X] == '#')
+    if (Map[NewPlayerPosition.X][NewPlayerPosition.Y] == 1)
     {
         return false;
     }
     else
     {
-        OutPlayerPosition = PredictPlayerPosition;
+        OutPlayerPosition = NewPlayerPosition;
         return true;
     }
-}
+};
+
+
 
 void SetLocation(FVector2D NewLocation);
 
 void DrawBG(FVector2D StartPosition)
 {
-    for (int Y = 0; Y < 10; ++Y)
+    for (int X = 0; X < 10; ++X)
     {
-        for (int X = 0; X < 10; ++X)
+        for (int Y = 0; Y < 10; ++Y)
         {
             FVector2D Temp;
             Temp.X = X + StartPosition.X;
             Temp.Y = Y + StartPosition.Y;
             SetLocation(Temp);
-            cout << Map[Y][X];
+            cout << Map[X][Y];
         }
+        
+
     }
 
 }
+
 
 int main()
 {
@@ -103,12 +111,12 @@ int main()
 
         IsCollide(NewPlayerPosition, PlayerPosition);
 
-        
+        /*
         PlayerPosition.X = PlayerPosition.X < 1 ? 1 : PlayerPosition.X;
         PlayerPosition.Y = PlayerPosition.Y < 1 ? 1 : PlayerPosition.Y;
         PlayerPosition.X = PlayerPosition.X > 17 ? 17 : PlayerPosition.X;
         PlayerPosition.Y = PlayerPosition.Y > 8 ? 8 : PlayerPosition.Y;
-        
+        */
 
         system("cls");
         
